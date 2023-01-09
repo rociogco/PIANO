@@ -7,33 +7,1477 @@
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
-    <div id="piano">
-      <img class="logo" src="https://cdn.freecodecamp.org/platform/universal/fcc_primary.svg" alt="freeCodeCamp Logo" />
-      <div class="keys">
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-        <div class="key black--key"></div>
-      </div>
-    </div>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Documento">
+      <xs:annotation>
+      <xs:documentation>Informacion Electronica correspondiente al Conocimiento de Embarque Maritimo</xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:all>
+      <!--  Datos del BL  -->
+      <xs:element name="tipo-accion" default="I" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Funcionalidad del mensaje que se esta enviando. Los valores que puede tomar este tag son: - I: Ingreso - M: Modificacion </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="I"/>
+      <xs:enumeration value="M"/>
+      <xs:length value="1"/>
+      <xs:enumeration value="A"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="numero-referencia" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se debe indicar el numero del documento dado por el emisor del mensaje. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="35"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="fecha-recepcion-bl" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Fecha de aceptacion del BL en Aduanas. Este tag debe ser consignado para una Modificacion. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="16"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="service" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Nombre del servicio de ruta prestado por la empresa de transporte. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value=""/>
+      <xs:enumeration value="LINER"/>
+      <xs:enumeration value="TRAMP"/>
+      <xs:maxLength value="5"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-servicio" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Tipo de carga que esta individualizada en el conocimiento de embarque. Los valores que puede tomar este tag son: - FCL: Full Container Load. - LCL: Less than Container Load. - BB: Break Bulk. - FCL/LCL: Full Container Load / Less than Container Load. - FCL/BB: Full Container Load / Break Bulk. - LCL/BB: Less than Container Load / Break Bulk. - FCL/LCL/BB: Full Container Load, Less than Container Load / Break Bulk. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      <xs:enumeration value="EMPTY"/>
+      <xs:enumeration value="FCL/FCL"/>
+      <xs:enumeration value="LCL/LCL"/>
+      <xs:enumeration value="BB"/>
+      <xs:enumeration value="FCL/LCL"/>
+      <xs:enumeration value="FCL/BB"/>
+      <xs:enumeration value="LCL/BB"/>
+      <xs:enumeration value="FCL/LCL/BB"/>
+      <xs:enumeration value="CY/CY"/>
+      <xs:enumeration value="CFS/CFS"/>
+      <xs:enumeration value="CFS/CY"/>
+      <xs:enumeration value="CY/CFS"/>
+      <xs:enumeration value="CY/DOOR"/>
+      <xs:enumeration value="DOOR/CY"/>
+      <xs:enumeration value="LCL/FCL"/>
+      <xs:enumeration value="DOOR/DOOR"/>
+      <xs:enumeration value="RoRo"/>
+      <xs:enumeration value="LICTVACIOS"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="cond-transporte" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Condiciones de entrega de las mercancias. Los valores que puede tomar este tag son: - HH (House/House): Entrega puerta a puerta. - HP (House/Pier): Entrega puerta a puerto. - PP (Pier/Pier): Entrega puerto a puerto. - PH (Pier/House): Entrega puerto a puerta. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value=""/>
+      <xs:enumeration value="HH"/>
+      <xs:enumeration value="HP"/>
+      <xs:enumeration value="PP"/>
+      <xs:enumeration value="PH"/>
+      <xs:maxLength value="2"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="total-bultos" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Total de bultos que son amparados por el BL. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="8"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="total-peso" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Peso total de la mercancia amparada por el BL. No incluye la tara de los contenedores. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="19"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="unidad-peso" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Unidad de medida en la cual fue declarado el peso total de las mercancias. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="CMQ"/>
+      <xs:enumeration value="CMT"/>
+      <xs:enumeration value="D41"/>
+      <xs:enumeration value="FOT"/>
+      <xs:enumeration value="FTQ"/>
+      <xs:enumeration value="GLD"/>
+      <xs:enumeration value="GLI"/>
+      <xs:enumeration value="GLL"/>
+      <xs:enumeration value="GRM"/>
+      <xs:enumeration value="HGM"/>
+      <xs:enumeration value="HLT"/>
+      <xs:enumeration value="HMT"/>
+      <xs:enumeration value="INH"/>
+      <xs:enumeration value="INQ"/>
+      <xs:enumeration value="KGM"/>
+      <xs:enumeration value="KTM"/>
+      <xs:enumeration value="KTN"/>
+      <xs:enumeration value="LBR"/>
+      <xs:enumeration value="LTR"/>
+      <xs:enumeration value="MTQ"/>
+      <xs:enumeration value="MTR"/>
+      <xs:enumeration value="ONZ"/>
+      <xs:enumeration value="STN"/>
+      <xs:enumeration value="TNE"/>
+      <xs:enumeration value="UNI"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="total-volumen" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Volumen total de la mercancia amparada por el BL. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="17"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="unidad-volumen" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Unidad de medida en la cual fue declarado el volumen total de las mercancias. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="CMQ"/>
+      <xs:enumeration value="CMT"/>
+      <xs:enumeration value="D41"/>
+      <xs:enumeration value="FOT"/>
+      <xs:enumeration value="FTQ"/>
+      <xs:enumeration value="GLD"/>
+      <xs:enumeration value="GLI"/>
+      <xs:enumeration value="GLL"/>
+      <xs:enumeration value="GRM"/>
+      <xs:enumeration value="HGM"/>
+      <xs:enumeration value="HLT"/>
+      <xs:enumeration value="HMT"/>
+      <xs:enumeration value="INH"/>
+      <xs:enumeration value="INQ"/>
+      <xs:enumeration value="KGM"/>
+      <xs:enumeration value="KTM"/>
+      <xs:enumeration value="KTN"/>
+      <xs:enumeration value="LBR"/>
+      <xs:enumeration value="LTR"/>
+      <xs:enumeration value="MTQ"/>
+      <xs:enumeration value="MTR"/>
+      <xs:enumeration value="ONZ"/>
+      <xs:enumeration value="STN"/>
+      <xs:enumeration value="TNE"/>
+      <xs:enumeration value="UNI"/>
+      <xs:enumeration value=" "/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="total-item" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Total de items que se describen en el mensaje. Este numero debe coincidir con el total de tipos de bultos distintos que se declaren en Items. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="5"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="OpTransporte" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Operacion de Transporte asociada al documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="optransporte" minOccurs="1" maxOccurs="1">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="sentido-operacion" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se debe indicar el destino aduanero de la mercancia declarada en el documento de transporte. Los valores que puede tomar son: - I : Ingreso - S : Salida - TR : Transito , para este caso el destino final de las mercancias (Locaciones) debe ser distinto de Chile. - TRB : Transbordo, para este caso el destino final de las mercancias (Locaciones) debe ser distinto del puerto de Arribo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="I"/>
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="TR"/>
+      <xs:enumeration value="TRB"/>
+      <xs:enumeration value="REX"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="5"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="nombre-nave" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Nombre con que arribara o zarpara la nave del puerto. Consignar nombre de la nave registrado en el sistema de acuerdo al encabezado referenciado. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="50"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="Flete" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Forma Pago Flete asociada al documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="forma-pago-flete" minOccurs="1" maxOccurs="1">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="tipo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> ... </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="PREPAID"/>
+      <xs:enumeration value="COLLECT"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="descripcion" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> ... </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Fechas" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Fechas asociadas al Documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="fecha" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="nombre" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el nombre de la fecha asociada al documento. Los tipos de fechas que se deben consignar son: - FPRES: fecha de presentacion del mensaje. - FEM: fecha de emision del BL. Corresponde a la fecha indicada en el documento de transporte. - FZARPE: fecha de zarpe de la nave. Corresponde al puerto donde se embarcaron las mercancias amparadas en el BL. Obligatoria para el ingreso de mercancias. - FEMB: fecha de embarque de las mercancias. Corresponde a la fecha de puesta a bordo de las mercancias. Obligatoria para la salida de mercancias. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="FPRES"/>
+      <xs:enumeration value="FEM"/>
+      <xs:enumeration value="FZARPE"/>
+      <xs:enumeration value="FEMB"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="valor" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el valor de las fechas asociadas al tipo de fecha consignada en el tag nombre. Para FEM el formato es "dd-mm-yyyy". Para el resto de las fechas el formato es "dd-mm-yyyy HH:mm". </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="16"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="Locaciones" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Locaciones asociadas al documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="locacion" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="nombre" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el nombre del tipo de locacion asociada al documento. Los valores que puede tomar son: - LE: Lugar de Emision del BL (obligatoria). - PE: Puerto de Embarque de la mercancia (obligatoria). - PD: Puerto de Desembarque de la mercancia (obligatoria). - LD: Lugar de Destino final de la mercancia (obligatoria). - LEM: Lugar de Entrega de la Mercancia (obligatoria). - LRM: Lugar de Recepcion de la Mercancia por el carrier (obligatoria). - TRB: Lugar de Transbordo de la mercancía. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="LE"/>
+      <xs:enumeration value="PE"/>
+      <xs:enumeration value="PD"/>
+      <xs:enumeration value="LD"/>
+      <xs:enumeration value="LEM"/>
+      <xs:enumeration value="LRM"/>
+      <xs:enumeration value="TRB"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="codigo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el codigo de la locacion segun la tabla de codigos UN. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="5"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="descripcion" maxOccurs="1" minOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Descripcion de la locacion en forma de glosa, segun el codigo utilizado en el tag "codigo". </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="Participaciones" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Participantes asociados al documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="participacion" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="nombre" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el tipo de participante asociado al documento. Sus valores son: - ALM: Almacenista (opcional). - EMI: Agente que presenta el mensaje (obligatorio). - REP: Agente o representante del emisor del BL en origen (Freight Forwarder o Agencia) (obligatorio). - EMIDO: Emisor del BL en origen (obligatorio). - EMB: Embarcador o quien solicita el servicio de transporte (Shipper) (obligatorio). - CONS: Consignatario (obligatorio). - NOTI: Notify (opcional). - NOTI2: Segundo Notify (opcional). </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="ALM"/>
+      <xs:enumeration value="EMI"/>
+      <xs:enumeration value="REP"/>
+      <xs:enumeration value="EMIDO"/>
+      <xs:enumeration value="EMB"/>
+      <xs:enumeration value="CONS"/>
+      <xs:enumeration value="NOTI"/>
+      <xs:enumeration value="NOTI2"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="5"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-id" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el tipo de identificacion del participante. Sus valores son: - RUT: RUT. - PAS: Pasaporte. - ADU: Codigo dado por Aduanas. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="RUT"/>
+      <xs:enumeration value="PAS"/>
+      <xs:enumeration value="ADU"/>
+      <xs:enumeration value=""/>
+      <xs:maxLength value="3"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="valor-id" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el valor del identificador del participante en el documenmto cuyo tipo fue indicado en el tag "tipo-id". </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="nacion-id" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Pais que otorga la identificacion en forma codificada. Tabla UN. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="2"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="nombres" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el nombre del participante en el documento. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="codigo-pais" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Codigo del pais asociado a la direccion del participante. Tabla UN. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="2"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="codigo-almacen" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Codigo del almacen. Obligatorio para Almacenista. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="direccion" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Direccion del Participante. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="comuna" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Comuna involucrada en la direccion del Participante. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="telefono" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Telefono del Participante. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <xs:element name="correo-electronico" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Email del Participante. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="Transbordos" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Transbordos que sufrio la mercancia declarada en el mensaje antes de la llegada al puerto de arribo. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="transbordo" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="cod-lugar" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el codigo del lugar donde se realizo el transbordo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="5"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="descripcion-lugar" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la descripcion del lugar donde se realizo el transbordo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="fecha-arribo" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la fecha de arribo al puerto de transbordo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="16"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--   -->
+      <xs:element name="Items" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Items en el documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="item" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="numero-item" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el numero del item correspondiente. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="15"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="marcas" maxOccurs="1" minOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Marcas y numeros que permiten identificar un bulto. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="2048"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="carga-peligrosa" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Este tag consigna una mercancia peligrosa. Sus valores son: - S: Peligrosa. - N: No peligrosa. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="N"/>
+      <xs:length value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-bulto" maxOccurs="1" minOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Codigo de identificacion del tipo de bulto del item. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="descripcion" maxOccurs="1" minOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Glosa de la descripcion de la mercancia. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="2048"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="cantidad" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la cantidad de bultos en el item. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="8"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="peso-bruto" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el peso de las mercancias incluidos sus envases y embalajes. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="19"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="unidad-peso" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la unidad de peso en la que se ha determinado el peso. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="CMQ"/>
+      <xs:enumeration value="CMT"/>
+      <xs:enumeration value="D41"/>
+      <xs:enumeration value="FOT"/>
+      <xs:enumeration value="FTQ"/>
+      <xs:enumeration value="GLD"/>
+      <xs:enumeration value="GLI"/>
+      <xs:enumeration value="GLL"/>
+      <xs:enumeration value="GRM"/>
+      <xs:enumeration value="HGM"/>
+      <xs:enumeration value="HLT"/>
+      <xs:enumeration value="HMT"/>
+      <xs:enumeration value="INH"/>
+      <xs:enumeration value="INQ"/>
+      <xs:enumeration value="KGM"/>
+      <xs:enumeration value="KTM"/>
+      <xs:enumeration value="KTN"/>
+      <xs:enumeration value="LBR"/>
+      <xs:enumeration value="LTR"/>
+      <xs:enumeration value="MTQ"/>
+      <xs:enumeration value="MTR"/>
+      <xs:enumeration value="ONZ"/>
+      <xs:enumeration value="STN"/>
+      <xs:enumeration value="TNE"/>
+      <xs:enumeration value="UNI"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="volumen" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se describe el volumen de la cantidad total de bultos del contenedor del tipo de bulto descrito en el tag "tipo-bulto". Consignar cuando se tiene la informacion. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="17"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="unidad-volumen" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la unidad de medida en la cual se ha determinado el volumen en el tag "volumen". Consignar cuando se ha ingresaso valor en tag "volumen". </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="CMQ"/>
+      <xs:enumeration value="CMT"/>
+      <xs:enumeration value="D41"/>
+      <xs:enumeration value="FOT"/>
+      <xs:enumeration value="FTQ"/>
+      <xs:enumeration value="GLD"/>
+      <xs:enumeration value="GLI"/>
+      <xs:enumeration value="GLL"/>
+      <xs:enumeration value="GRM"/>
+      <xs:enumeration value="HGM"/>
+      <xs:enumeration value="HLT"/>
+      <xs:enumeration value="HMT"/>
+      <xs:enumeration value="INH"/>
+      <xs:enumeration value="INQ"/>
+      <xs:enumeration value="KGM"/>
+      <xs:enumeration value="KTM"/>
+      <xs:enumeration value="KTN"/>
+      <xs:enumeration value="LBR"/>
+      <xs:enumeration value="LTR"/>
+      <xs:enumeration value="MTQ"/>
+      <xs:enumeration value="MTR"/>
+      <xs:enumeration value="ONZ"/>
+      <xs:enumeration value="STN"/>
+      <xs:enumeration value="TNE"/>
+      <xs:enumeration value="UNI"/>
+      <xs:enumeration value=" "/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="observaciones" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Observaciones al item. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="carga-cnt" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> - S: si la carga descrita en el item esta dentro de uno o mas contenedores. - N: caso contrario. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="N"/>
+      <xs:enumeration value="S"/>
+      <xs:enumeration value=""/>
+      <xs:maxLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="ItemsIMO" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Permite identificar los numeros IMO de peligrosidad de la carga. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="itemimo" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:sequence>
+      <!--    -->
+      <xs:element name="clase-imo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Clase de IMO de peligrosidad de la carga. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="4"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="numero-imo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Numero de las UN para identificar la peligrosidad de la carga. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="8"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Contenedores" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Contenedores en el item. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="contenedor" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="sigla" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Parte alfabetica de la identificacion del contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="4"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="numero" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Parte numerica de la identificacion del contenedor sin incluir digito verificador. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="6"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="digito" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Digito verificador de la identificacion del contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-cnt" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Tipo de contenedor. Permite identificar las caracteristicas del contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="4"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="cnt-so" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Contenedores Shipper Owner. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="peso" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Peso bruto de las mercancias contenidas. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="19"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="valor-id-op" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Valor del RUT que identifica al operador de contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="15"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="nombre-operador" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Nombre del operador del contenedor </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="status" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Caracteristicas de consolidacion de la carga que presenta el contenedor en origen y destino. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="EMPTY"/>
+      <xs:enumeration value="FCL/FCL"/>
+      <xs:enumeration value="LCL/LCL"/>
+      <xs:enumeration value="BB"/>
+      <xs:enumeration value="FCL/LCL"/>
+      <xs:enumeration value="FCL/BB"/>
+      <xs:enumeration value="LCL/BB"/>
+      <xs:enumeration value="FCL/LCL/BB"/>
+      <xs:enumeration value="CY/CY"/>
+      <xs:enumeration value="CFS/CFS"/>
+      <xs:enumeration value="CFS/CY"/>
+      <xs:enumeration value="CY/CFS"/>
+      <xs:enumeration value="CY/DOOR"/>
+      <xs:enumeration value="DOOR/CY"/>
+      <xs:enumeration value="LCL/FCL"/>
+      <xs:enumeration value="DOOR/DOOR"/>
+      <xs:enumeration value="RoRo"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="CntIMO" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Carga peligrosa en el contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="cntimo" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="clase-imo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Clase IMO de peligrosidad de la carga en el contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="4"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="numero-imo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Numero IMO de peligrosidad de la carga en el contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="8"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Sellos" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Sellos del contenedor. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="sello" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="numero" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Identificacion de los sellos a traves de sus marcas o numeracion. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="20"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="codigo" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Codigo del emisor del sello. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="emisor" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Nombre del emisor del sello. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--  fin Sellos  -->
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Vehiculos" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Vehiculos en el item. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="vehiculo" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="modelo" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Modelo del vehiculo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="id-cajon" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Identificacion del cajon que contiene el vehiculo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="chassis" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Identificacion del vehiculo a traves de su chassis. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="30"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="marca" maxOccurs="1" minOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Marca del vehiculo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="30"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="observacion" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Observaciones al vehiculo. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Equipos" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Equipos anexos. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="equipo" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="tipo-equipo" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Este tag muestra los tipos de equipo anexo con el que ingresa o sale del pais un contenedor. Los valores que puede tomar este tag son: - F: FLEXITAINER. - G: GEN SET. - R: TRAILER. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="F"/>
+      <xs:enumeration value="G"/>
+      <xs:enumeration value="R"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="sigla" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Sigla del equipo </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="identificacion" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Identificacion del equipo </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--  fin Equipos  -->
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Referencias" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Referencias asociadas al documento. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="referencia" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="tipo-referencia" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indentifica el tipo de referencia o relacion entre el mensaje enviado y el documento que se describira en los tag de Referencia. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="REF"/>
+      <xs:enumeration value="REFMANANT"/>
+      <xs:enumeration value="MADRE"/>
+      <xs:enumeration value="FLETE"/>
+      <xs:enumeration value="CUBREFALTA"/>
+      <xs:enumeration value="REFBLANT"/>
+      <xs:enumeration value="REFDUS"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-documento" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el tipo de documento de referencia asociada. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="BL"/>
+      <xs:enumeration value="BOO"/>
+      <xs:enumeration value="CP"/>
+      <xs:enumeration value="DELIVORDER"/>
+      <xs:enumeration value="GA"/>
+      <xs:enumeration value="GCOURIER"/>
+      <xs:enumeration value="GT"/>
+      <xs:enumeration value="LCORREOS"/>
+      <xs:enumeration value="LENCARGOS"/>
+      <xs:enumeration value="LPASAJEROS"/>
+      <xs:enumeration value="LPROVISION"/>
+      <xs:enumeration value="C"/>
+      <xs:enumeration value="MFTOA"/>
+      <xs:enumeration value="MFTO"/>
+      <xs:enumeration value="MIC"/>
+      <xs:enumeration value="TIF"/>
+      <xs:enumeration value="DUS"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="10"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="numero" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica el numero del documento referenciado. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="35"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="fecha" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se indica la fecha de emision del documento referenciado en formato "dd-mm-yyyy". </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="10"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="tipo-id-emisor" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Tipo de identificacion del emisor del documento referenciado. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="RUT"/>
+      <xs:enumeration value="PAS"/>
+      <xs:enumeration value="ADU"/>
+      <xs:minLength value="1"/>
+      <xs:maxLength value="3"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="nac-id-emisor" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Codigo del pais que otorga la identificacion descrita en tipo-id-emisor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="2"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="valor-id-emisor" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Valor del identificador del participante cuyo tipo fue descrito en tipo-id-emisor. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="emisor" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Nombre del emisor del documento referenciado. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="255"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="Observaciones" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> Observaciones asociadas al documemto. </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+      <xs:sequence>
+      <xs:element name="observacion" minOccurs="1" maxOccurs="unbounded">
+      <xs:complexType>
+      <xs:all>
+      <!--    -->
+      <xs:element name="nombre" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se debe indicar el tipo de observacion que se consignara. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:enumeration value="GRAL">
+      <xs:annotation>
+      <xs:documentation> Observacion general, texto libre. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MOT">
+      <xs:annotation>
+      <xs:documentation> Motivo Modificacion / Anulacion. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="01">
+      <xs:annotation>
+      <xs:documentation> Envio mensaje fuera de plazo. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="02">
+      <xs:annotation>
+      <xs:documentation> Cambios en la operacion de la nave dentro de un mismo puerto: - Sitio - Almacenista </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="03">
+      <xs:annotation>
+      <xs:documentation> Cambio cantidad de bultos. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="04">
+      <xs:annotation>
+      <xs:documentation> Solicitud aclaracion manual. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="05">
+      <xs:annotation>
+      <xs:documentation> Cubre faltas. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="06">
+      <xs:annotation>
+      <xs:documentation> Cambio numero de Manifiesto, Puerto de Desembarque y Almacenista. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="07">
+      <xs:annotation>
+      <xs:documentation> Plazo para Lista de Contenedores Vacios de Puertos Nacionales. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="08">
+      <xs:annotation>
+      <xs:documentation> Exportacion/Importacion Puerto CLARI, Sitio 7 ENAPU. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="10">
+      <xs:annotation>
+      <xs:documentation> Indica Tránsito a Bolivia </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="11">
+      <xs:annotation>
+      <xs:documentation> Indica Tránsito a Perú. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="12">
+      <xs:annotation>
+      <xs:documentation> Indica Tránsito a un país diferente de Bolivia, Chile o Perú. </xs:documentation>
+      </xs:annotation>
+      </xs:enumeration>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      <!--    -->
+      <xs:element name="contenido" minOccurs="1" maxOccurs="1">
+      <xs:annotation>
+      <xs:documentation> En este tag se debe indicar el contendido de la observacion. </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+      <xs:restriction base="xs:string">
+      <xs:maxLength value="255"/>
+      <xs:minLength value="1"/>
+      </xs:restriction>
+      </xs:simpleType>
+      </xs:element>
+      </xs:all>
+      </xs:complexType>
+      </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+      </xs:all>
+      <!--    -->
+      <xs:attribute name="tipo" use="required" type="xs:string">
+      <xs:annotation>
+      <xs:documentation> Para este caso el tipo debe ser "BL". </xs:documentation>
+      </xs:annotation>
+      </xs:attribute>
+      <!--    -->
+      <xs:attribute name="version" use="required" type="xs:string">
+      <xs:annotation>
+      <xs:documentation> La version para esta esquema es 1.0. </xs:documentation>
+      </xs:annotation>
+      </xs:attribute>
+      </xs:complexType>
+      </xs:element>
+      </xs:schema>
   </body>
-</html>
+  </html>
